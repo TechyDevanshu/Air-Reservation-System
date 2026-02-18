@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirm Booking | Air Reservation System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .flight-summary {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .flight-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .sub-text {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .route {
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .details {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        hr {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .btn-confirm {
+            margin-top: 1rem;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-confirm:hover {
+            background: #1e40af;
+        }
+
+        .price-highlight {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .available {
+            color: #16a34a;
+            font-weight: 500;
+        }
+
+        .alert-success, .alert-error {
+            margin-top: 1rem;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>✈️ Confirm Your Booking</h2>
+
+        <!-- Flight Summary -->
+        <div class="flight-summary">
+
+            <div class="flight-number"
+                 th:text="${flight.flightNumber}"></div>
+
+            <div class="sub-text"
+                 th:text="${flight.airline}"></div>
+
+            <div class="route"
+                 th:text="${flight.source + ' → ' + flight.destination}">
+            </div>
+
+            <div class="details">
+                Date:
+                <strong th:text="${#temporals.format(flight.journeyDate,'dd MMM yyyy')}"></strong>
+                <br>
+                Available Seats:
+                <span class="available"
+                      th:text="${flight.availableSeats}"></span>
+                <br>
+                Price per Seat:
+                ₹ <span class="price-highlight"
+                        th:text="${flight.price}"></span>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!-- Booking Form -->
+        <form th:action="@{/bookings/create}" method="post">
+
+            <input type="hidden"
+                   name="flightId"
+                   th:value="${flightId}" />
+
+            <div class="form-group">
+                <label>Number of Seats</label>
+                <input type="number"
+                       name="seats"
+                       min="1"
+                       th:max="${flight.availableSeats}"
+                       placeholder="Enter seats"
+                       required />
+            </div>
+
+            <button type="submit" class="btn-confirm">
+                Confirm Booking
+            </button>
+
+        </form>
+
+        <div th:if="${success}" class="alert-success"
+             th:text="${success}"></div>
+
+        <div th:if="${error}" class="alert-error"
+             th:text="${error}"></div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

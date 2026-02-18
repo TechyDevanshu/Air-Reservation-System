@@ -1,0 +1,31 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# IntelliJ
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+
+# Env
+.env
+
+# Build
+node_modules/
+
+# Spring Boot
+*.jar
+*.war

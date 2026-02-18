@@ -1,0 +1,355 @@
+/* ===========================
+   1. VARIABLES & RESET
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Core Palette - Slightly refined for better contrast */
+    --primary: #1e3c72;
+    --primary-light: #3a60a6; /* Lighter for hover states */
+    --primary-dark: #152b52;
+    --accent: #ff6b35;
+
+    /* Functional Colors */
+    --success-bg: #d1fae5;
+    --success-text: #065f46;
+    --danger-bg: #fee2e2;
+    --danger-text: #991b1b;
+    --warning-bg: #fef3c7;
+    --warning-text: #92400e;
+
+    /* Neutrals */
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --bg-body: #f3f4f6;
+    --bg-card: #ffffff;
+    --border: #e5e7eb;
+
+    /* Effects */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius: 12px;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box; /* Crucial for consistent layout */
+}
+
+body {
+    background: var(--bg-body);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===========================
+   2. LAYOUT & TYPOGRAPHY
+=========================== */
+.container {
+    padding: 2rem; /* Using rem for scalability */
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 1.875rem; /* ~30px */
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.025em;
+}
+
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* ===========================
+   3. CARDS & DASHBOARD
+=========================== */
+.card, .booking-card, .stat-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+    height: 100%; /* Ensures grid items match height */
+}
+
+.card:hover, .booking-card:hover, .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light); /* Subtle interactive hint */
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Better responsiveness */
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card h3 {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.stat-card p {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0 0;
+    color: var(--primary);
+    line-height: 1;
+}
+
+/* ===========================
+   4. BUTTONS
+=========================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    gap: 0.5rem;
+}
+
+/* Accessibility Focus Ring */
+.btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.btn:active {
+    transform: scale(0.98); /* Click press effect */
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    box-shadow: 0 4px 6px rgba(30, 60, 114, 0.2);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 12px rgba(30, 60, 114, 0.3);
+    filter: brightness(1.1);
+}
+
+.btn-cancel {
+    background: white;
+    color: var(--danger-text);
+    border: 1px solid #fee2e2;
+}
+
+.btn-cancel:hover {
+    background: var(--danger-bg);
+    border-color: var(--danger-text);
+}
+
+/* ===========================
+   5. TABLES (Modern & Clean)
+=========================== */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.modern-booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background: white;
+}
+
+.modern-booking-table th {
+    background: #f8fafc;
+    padding: 1rem;
+    text-align: left;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+}
+
+.modern-booking-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-main);
+}
+
+.modern-booking-table tr:last-child td {
+    border-bottom: none;
+}
+
+.modern-booking-table tr:hover {
+    background-color: #f9fafb;
+}
+
+/* ===========================
+   6. BADGES & ALERTS
+=========================== */
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px; /* Pill shape */
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    display: inline-block;
+}
+
+.badge-confirmed {
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+.badge-cancelled {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+}
+
+.seat-pill {
+    background: #eff6ff;
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: monospace; /* Looks more like a ticket code */
+}
+
+.price {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1.1rem;
+}
+
+/* Alerts */
+.alert-success, .alert-error {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success {
+    background: var(--success-bg);
+    color: var(--success-text);
+    border-color: var(--success-text);
+}
+
+.alert-error {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+    border-color: var(--danger-text);
+}
+
+/* ===========================
+   7. NAVBAR (Glassmorphism)
+=========================== */
+.navbar {
+    background: rgba(30, 60, 114, 0.95); /* Semi-transparent */
+    backdrop-filter: blur(12px); /* Blur effect */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-email {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.logout-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+/* ===========================
+   8. RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .user-section {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .modern-booking-table {
+        min-width: 600px; /* Forces scroll on small screens */
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+}

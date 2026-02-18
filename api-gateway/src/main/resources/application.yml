@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: flight-service
+            uri: lb://FLIGHT-SERVICE
+            predicates:
+              - Path=/flights/**
+
+          - id: booking-service
+            uri: lb://BOOKING-SERVICE
+            predicates:
+              - Path=/bookings/**
+
+          - id: report-service
+            uri: lb://REPORT-SERVICE
+            predicates:
+              - Path=/reports/**
+
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/users/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway.server.mvc: DEBUG

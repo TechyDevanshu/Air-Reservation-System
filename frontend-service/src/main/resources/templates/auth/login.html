@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login | Air Reservation System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        }
+
+        .login-container {
+            background: #ffffff;
+            padding: 40px;
+            width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #2a5298;
+            outline: none;
+            box-shadow: 0 0 5px rgba(42,82,152,0.5);
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2a5298;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #1e3c72;
+        }
+
+        .footer-text {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .footer-text a {
+            color: #2a5298;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+    <h2>Welcome Back ✈</h2>
+
+    <form th:action="@{/auth/login}" method="post" th:object="${loginRequest}">
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" th:field="*{email}" placeholder="Enter your email" required />
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" th:field="*{password}" placeholder="Enter your password" required />
+        </div>
+
+        <p th:if="${error}" th:text="${error}" class="error"></p>
+
+        <button type="submit">Login</button>
+
+        <div class="footer-text">
+            Don’t have an account?
+            <a th:href="@{/auth/register}">Register here</a>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

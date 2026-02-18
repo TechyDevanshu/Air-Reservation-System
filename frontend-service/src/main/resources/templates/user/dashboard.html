@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Passenger Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <h2>Passenger Dashboard</h2>
+    <p>Welcome, <strong th:text="${email}"></strong></p>
+
+    <div class="card-container">
+
+        <div class="card">
+            <h3>✈ Search Flights</h3>
+            <a th:href="@{/flights/search}">Search Now</a>
+        </div>
+
+        <div class="card">
+            <h3>📖 My Bookings</h3>
+            <a th:href="@{/bookings/my}">View Bookings</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

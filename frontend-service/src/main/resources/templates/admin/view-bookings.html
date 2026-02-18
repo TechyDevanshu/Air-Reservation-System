@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin | Booking Management</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-800: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-100);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: var(--gray-500);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-title {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        /* Table */
+        .booking-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--gray-50);
+        }
+
+        thead th {
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--gray-500);
+        }
+
+        tbody td {
+            padding: 1rem;
+            border-top: 1px solid var(--gray-300);
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        /* Status */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-confirmed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Empty State */
+        .empty-card {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fas fa-book-open" style="color:#2563eb;"></i>
+            Booking Management
+        </h1>
+        <p class="page-subtitle">View and monitor all system bookings</p>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="stats-grid" th:if="${!#lists.isEmpty(bookings)}">
+        <div class="stat-card">
+            <div class="stat-title">Total Bookings</div>
+            <div class="stat-value" th:text="${bookings.size()}"></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Confirmed</div>
+            <div class="stat-value"
+                 th:text="${#lists.size(bookings.?[bookingStatus.name() == 'CONFIRMED'])}"></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Cancelled</div>
+            <div class="stat-value"
+                 th:text="${#lists.size(bookings.?[bookingStatus.name() == 'CANCELLED'])}"></div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div th:if="${#lists.isEmpty(bookings)}" class="empty-card">
+        <h3>No Bookings Available</h3>
+        <p style="color: #6b7280;">No users have made bookings yet.</p>
+    </div>
+
+    <!-- Booking Table -->
+    <div class="booking-card" th:if="${!#lists.isEmpty(bookings)}">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>User ID</th>
+                <th>Flight ID</th>
+                <th>Date</th>
+                <th>Seats</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="b, stat : ${bookings}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${b.userId}"></td>
+                <td th:text="${b.flightId}"></td>
+                <td th:text="${#temporals.format(b.journeyDate, 'dd MMM yyyy')}"></td>
+                <td th:text="${b.seatsBooked}"></td>
+                <td>
+                    ₹ <span th:text="${#numbers.formatDecimal(b.totalPrice, 0, 'COMMA', 2, 'POINT')}"></span>
+                </td>
+                <td>
+                    <span th:class="'badge ' +
+                        (${b.bookingStatus.name() == 'CONFIRMED'} ?
+                        'badge-confirmed' : 'badge-cancelled')"
+                          th:text="${b.bookingStatus}">
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

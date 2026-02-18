@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard | Air Reservation System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome back, <strong th:text="${email}"></strong></p>
+    </div>
+    <!-- Management Section -->
+    <div class="card-container">
+
+        <div class="card">
+            <h3>👥 User Management</h3>
+            <a th:href="@{/admin/create}" class="btn">Create Admin</a>
+        </div>
+
+        <div class="card">
+            <h3>✈ Flight Management</h3>
+            <a th:href="@{/flights/admin}" class="btn">Manage Flights</a>
+        </div>
+
+        <div class="card">
+            <h3>📖 Booking Management</h3>
+            <a th:href="@{/admin/bookings}" class="btn">View Bookings</a>
+        </div>
+
+        <div class="card">
+            <h3>📊 Reports</h3>
+            <a th:href="@{/reports/admin}" class="btn">View Reports</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

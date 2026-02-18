@@ -1,0 +1,6 @@
+server:
+  port: 8085
+
+api:
+  gateway:
+    url: http://localhost:8080

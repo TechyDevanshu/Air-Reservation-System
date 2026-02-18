@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div th:fragment="header">
+    <nav class="navbar">
+
+        <!-- Clickable Logo -->
+        <div class="logo">
+            <a th:href="${session.ROLE == null} ? @{/} :
+               (${session.ROLE == 'ROLE_ADMIN'} ? @{/admin/dashboard} : @{/user/dashboard})">
+
+                <span class="logo-icon">✈</span>
+                <span class="logo-text">Air Reservation System</span>
+
+            </a>
+        </div>
+
+        <!-- User Section -->
+        <div class="user-section" th:if="${session.EMAIL != null}">
+            <span class="user-email">
+                <i class="fas fa-user-circle"></i>
+                <span th:text="${session.EMAIL}">user@example.com</span>
+            </span>
+
+            <a th:href="@{/auth/logout}" class="logout-btn">
+                Logout
+            </a>
+        </div>
+
+    </nav>
+</div>
+
+</body>
+</html>
