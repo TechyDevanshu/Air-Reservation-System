@@ -38,7 +38,7 @@ User → API Gateway → Services → Database
 
 **Database**
 
-* MySQL
+* H2 Database
 
 ---
 
@@ -53,7 +53,7 @@ Start services in order:
 5. frontend-service
 
 Access application:
-http://localhost:8085
+http://localhost:8085/auth/login
 
 ---
 
