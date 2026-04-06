@@ -21,7 +21,6 @@ public class JwtUtil {
     }
 
     public String generateToken(Long userId, String email, Role role) {
-
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", "ROLE_" + role.name())

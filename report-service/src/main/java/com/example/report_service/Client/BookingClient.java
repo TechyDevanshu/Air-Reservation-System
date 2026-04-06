@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "booking-service", url = "http://localhost:9003", fallbackFactory = BookingClientFallbackFactory.class)
+//@FeignClient(name = "booking-service", url = "http://localhost:9003", fallbackFactory = BookingClientFallbackFactory.class)
+@FeignClient(name = "BOOKING-SERVICE")
 public interface BookingClient {
 
     @GetMapping("/bookings/all")
