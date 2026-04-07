@@ -1,19 +1,21 @@
+version: '3.8'
+
 services:
 
   service-registry:
-    image: urmaliya2003/service-registry:latest
+    build: ./service-registry
     ports:
       - "8761:8761"
 
   config-server:
-    image: urmaliya2003/config-server:latest
+    build: ./config-server
     ports:
       - "8888:8888"
     depends_on:
       - service-registry
 
   user-service:
-    image: urmaliya2003/user-service:latest
+    build: ./user-service
     ports:
       - "9001:9001"
     depends_on:
@@ -21,7 +23,7 @@ services:
       - config-server
 
   flight-service:
-    image: urmaliya2003/flight-service:latest
+    build: ./flight-service
     ports:
       - "9002:9002"
     depends_on:
@@ -29,7 +31,7 @@ services:
       - config-server
 
   booking-service:
-    image: urmaliya2003/booking-service:latest
+    build: ./booking-service
     ports:
       - "9003:9003"
     depends_on:
@@ -37,7 +39,7 @@ services:
       - config-server
 
   report-service:
-    image: urmaliya2003/report-service:latest
+    build: ./report-service
     ports:
       - "9004:9004"
     depends_on:
@@ -45,7 +47,7 @@ services:
       - config-server
 
   api-gateway:
-    image: urmaliya2003/api-gateway:latest
+    build: ./api-gateway
     ports:
       - "8080:8080"
     depends_on:
@@ -53,7 +55,7 @@ services:
       - config-server
 
   frontend:
-    image: urmaliya2003/frontend-service:latest
+    build: ./frontend-service
     ports:
       - "3000:3000"
     depends_on:
