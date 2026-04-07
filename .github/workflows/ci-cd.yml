@@ -1,0 +1,58 @@
+name: CI-CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 24
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '24'
+
+      - name: Build Services
+        run: |
+          cd user-service && mvn clean package -DskipTests
+          cd ../flight-service && mvn clean package -DskipTests
+          cd ../booking-service && mvn clean package -DskipTests
+          cd ../report-service && mvn clean package -DskipTests
+          cd ../api-gateway && mvn clean package -DskipTests
+          cd ../config-server && mvn clean package -DskipTests
+          cd ../service-registry && mvn clean package -DskipTests
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push Docker Images
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/user-service ./user-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/user-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/flight-service ./flight-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/flight-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/booking-service ./booking-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/booking-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/report-service ./report-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/report-service
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/api-gateway ./api-gateway
+          docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/config-server ./config-server
+          docker push ${{ secrets.DOCKER_USERNAME }}/config-server
+
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/service-registry ./service-registry
+          docker push ${{ secrets.DOCKER_USERNAME }}/service-registry
